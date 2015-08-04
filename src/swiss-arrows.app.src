@@ -1,0 +1,9 @@
+%% -*- erlang -*-
+{application, 'swiss-arrows',
+ [{description, ""},
+  {vsn, "0.0.1"},
+  {modules, []},
+  {registered, []},
+  {applications, [kernel, stdlib]},
+  {included_applications, []},
+  {env, []}]}.
