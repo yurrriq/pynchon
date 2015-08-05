@@ -76,12 +76,12 @@
 ;;; The following allow developers to use (include-lib ...) on this file and
 ;;; pull in the functions from the passed module, making them available to
 ;;; call as if they were part of the language.
-;; (defmacro generate-arrows-wrappers ()
-;;   `(progn ,@(kla:wrap-mod-funcs 'swiss-arrows)))
+;; (defmacro generate-pynchon-wrappers ()
+;;   `(progn ,@(kla:wrap-mod-funcs 'pynchon)))
 
-;; (generate-arrows-wrappers)
+;; (generate-pynchon-wrappers)
 
-(defun loaded-arrows ()
+(defun loaded-pynchon ()
   "This is just a dummy function for display purposes when including from the
   REPL (the last function loaded has its name printed in stdout).
   This function needs to be the last one in this include."
