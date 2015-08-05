@@ -9,9 +9,9 @@
       (cond
        ((> c 1)  (error "No more than one position per form is allowed."))
        ((== 0 c) (if (is_list form)
-                   (if (=:= 'first default-position)
-                     `(,(car form) ,x ,@(cdr form))
-                     `(,(car form) ,@(cdr form) ,x))
+                   `(case (=:= 'first ,default-position)
+                      ('true  ,`(,(car form) ,x ,@(cdr form)))
+                      ('false ,`(,(car form) ,@(cdr form) ,x)))
                    form))
        ((== 1 c) `(,(car form) ,@(substitute-pos (cdr form))))))))
 
