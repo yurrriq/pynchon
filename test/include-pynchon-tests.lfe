@@ -8,9 +8,9 @@
 
 
 (deftest diamond
-  (is-equal (-<> (car '(1))) 1)
+  (is-equal (-<> (car (list 1))) 1)
   ;; (is-equal (-<> 0
   ;;                (* <> 5)
   ;;                (list 1 2 <> 3 4))
-  ;;           '(1 2 0 3 4))
+  ;;           (list 1 2 0 3 4))
   )
