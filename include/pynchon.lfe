@@ -1,8 +1,8 @@
 (include-lib "clj/include/compose.lfe")
 
 (defmacro -<>* [form x default-position]
-  (flet ((substitute-pos (form') (replace (map '<> x) form'))
-         (count-pos (form') (length (lists:filter (lambda (y) (=:= '<> y)) form'))))
+  (flet ((substitute-pos (form*) (replace (map '<> x) form*))
+         (count-pos (form*) (length (lists:filter (lambda (y) (=:= '<> y)) form*))))
     (let ((c (if (is_list form)
                (count-pos form)
                0)))
