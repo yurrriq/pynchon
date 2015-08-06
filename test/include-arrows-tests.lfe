@@ -117,3 +117,15 @@
                    (list 9 4 <>)
                    (list 10 11))
             '#((3 2 1) (5 3 7) (9 4 3) (10 11 3))))
+
+(deftest applicative
+  (is-equal (apply->> '((1 2) (3 4)) (#'lists:append/2) (#'+/4))
+            10)
+  (is-equal (apply->> '((1 2) (3 4)) (#'lists:append/2))
+            '(1 2 3 4))
+  ;; TODO: think on these
+  ;; (is (= (apply->> [[1 2] [3 4]] (concat [5 6]))
+  ;;        [1 2 3 4]))
+  ;; (is (= (apply->> [[1 2] [3 4]] (concat [5 6]) (+))
+  ;;        21))
+  )
