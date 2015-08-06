@@ -38,18 +38,18 @@
   positional '<>' symbol within the threaded form if present, otherwise
   mostly behave as the thread-first macro. Also works with hash literals
   and vectors."
-  ([x] x)
-  ([x form] `(-<>* ,form ,x 'first))
-  ([x form . forms] `(-<> (-<> ,x ,form) ,@forms)))
+  (`(,x) x)
+  (`(,x ,form) `(-<>* ,form ,x 'first))
+  (`(,x ,form . ,forms) `(-<> (-<> ,x ,form) ,@forms)))
 
 (defmacro -<>>
   "the 'diamond spear': top-level insertion of x in place of single
   positional '<>' symbol within the threaded form if present, otherwise
   mostly behave as the thread-last macro. Also works with hash literals
   and vectors."
-  ([x] x)
-  ([x form] `(-<>* ,form ,x 'last))
-  ([x form . forms] `(-<>> (-<>> ,x ,form) ,@forms)))
+  (`(,x) x)
+  (`(,x ,form) `(-<>* ,form ,x 'last))
+  (`(,x ,form . ,forms) `(-<>> (-<>> ,x ,form) ,@forms)))
 
 (defmacro <<- forms
   "the 'back-arrow'"
@@ -57,7 +57,7 @@
 
 (defmacro furcula*
   "sugar-free basis of public API"
-  ([operator 'false form branches]
+  (`(,operator false ,form ,branches)
    (cons
     'tuple
     (let ((branch-forms (lists:map
@@ -68,28 +68,28 @@
 
 (defmacro -<
   "'the furcula': branch one result into multiple flows"
-  ([form . branches]
+  (`(,form . ,branches)
    `(furcula* -> false ,form ,branches)))
 
 (defmacro -<<
   "'the trystero furcula': analog of ->> for furcula"
-  ([form . branches]
+  (`(,form . ,branches)
    `(furcula* ->> false ,form ,branches)))
 
 (defmacro -<><
   "'the diamond fishing rod': analog of -<> for furcula"
-  ([form . branches]
+  (`(,form . ,branches)
    `(furcula* -<> false ,form ,branches)))
 
 (defmacro -<>><
   "'the diamond harpoon': analog of -<>> for furcula"
-  ([form . branches]
+  (`(,form . ,branches)
    `(furcula* -<>> false ,form ,branches)))
 
 
 ;;;; == HELPER FUNCTIONS =======================================================
 
-(defun replace [smap coll] (lists:map (lambda [x] (maps:get x smap x)) coll))
+(defun replace (smap coll) (lists:map (lambda (x) (maps:get x smap x)) coll))
 
 ;;; The following allow developers to use (include-lib ...) on this file and
 ;;; pull in the functions from the passed module, making them available to
