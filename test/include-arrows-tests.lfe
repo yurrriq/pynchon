@@ -66,6 +66,30 @@
                  (lists:map (lambda (x) (+ x 1)) <>))
             '(4 3 2 5)))
 
+(deftest back-arrow
+  (is-equal (<<-
+             (let ((x 'nonsense)))
+             (if (not (is_atom x)) 'foo)
+             (let ((more 'blah)) more))
+            (->>
+             (let ((more 'blah)) more)
+             (if (not (is_atom x)) 'foo)
+             (let ((x 'nonsense)))))
+  (is-equal (<<-
+             (let ((x 'nonsense)))
+             (if (not (is_atom x)) 'foo)
+             (let ((more 'blah)) more))
+            (let ((x 'nonsense))
+              (if (not (is_atom x))
+                'foo
+                (let ((more 'blah))
+                  more))))
+  (is-equal (<<-
+             (let ((x 'nonsense)))
+             (if (not (is_atom x)) 'foo)
+             (let ((more 'blah)) more))
+            'blah))
+
 (deftest furculi
   (is-equal (-< (+ 1 2)
                 (list 2)
