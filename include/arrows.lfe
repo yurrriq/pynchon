@@ -68,6 +68,16 @@
    `(furcula* -<>> false ,form ,branches)))
 
 
+(defmacro apply->>
+  "applicative ->>"
+  (`(,h . ,t)
+   `(->> ,@(cons h (lists:map
+                    (lambda (x)
+                      (case (is_list x)
+                        ('true  (cons 'apply x))
+                        ('false (list 'apply x))))
+                    t)))))
+
 ;;; The following allow developers to use (include-lib ...) on this file and
 ;;; pull in the functions from the passed module, making them available to
 ;;; call as if they were part of the language.
