@@ -78,6 +78,43 @@
                         ('false (list 'apply x))))
                     t)))))
 
+(defmacro apply->
+  "applicative ->"
+  (`(,h . ,t)
+   `(-> ,@(cons h
+                (lists:map
+                 (lambda (el)
+                   (case (is_list el)
+                     ('true `(funcall ,(car el) ,@(cdr el)))
+                     ('false (list `(partial #'apply/2 (lambda (x) ))))
+                     )
+                   (if (coll? el#)
+                     `((partial apply ,(first el#)) ,@(rest el#))
+                     (list `(partial apply ~el#))))
+                 t)))))
+
+(defmacro -!>
+  "non-updating -> for unobtrusive side-effects"
+  (`(,form . ,forms)
+   ;; `(let ((x ,form)) (-> x# ~@forms) x#)
+   `(progn (-> ,form ,@forms) ,form)))
+
+(defmacro -!>>
+  "non-updating ->> for unobtrusive side-effects"
+  (`(,form . ,forms)
+   `(progn (->> ,form ,@forms) ,form)))
+
+(defmacro -!<>
+  "non-updating -<> for unobtrusive side-effects"
+  (`(,form . ,forms)
+   `(progn (-<> ,form ,@forms) ,form)))
+
+(defmacro -!<>>
+  "non-updating -<>> for unobtrusive side-effects"
+  (`(,form . ,forms)
+   `(progn (-<>> ,form ,@forms) ,form)))
+
+
 ;;; The following allow developers to use (include-lib ...) on this file and
 ;;; pull in the functions from the passed module, making them available to
 ;;; call as if they were part of the language.
