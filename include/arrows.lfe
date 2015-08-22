@@ -75,6 +75,28 @@
                         ('false (list 'apply x))))
                     t)))))
 
+(defmacro ok-<>>
+  "Like the diamond wand version of some-> but Erlangy.
+
+  Thread val in (= `#(ok ,val) x), otherwise return x."
+  (`(,x ,form)
+   `(let ((,'y ,x))
+      (case ,'y
+        (`#(ok ,val) (-<> val ,form))
+        (_ ,'y))))
+  (`(,x ,form . ,forms) `(ok-<> (ok-<> ,x ,form) ,@forms)))
+
+(defmacro ok-<>>
+  "Like the diamond wand version of some->> but Erlangy.
+
+  Thread val in (= `#(ok ,val) x), otherwise return x."
+  (`(,x ,form)
+   `(let ((,'y ,x))
+      (case ,'y
+        (`#(ok ,val) (-<>> val ,form))
+        (_ ,'y))))
+  (`(,x ,form . ,forms) `(ok-<>> (ok-<>> ,x ,form) ,@forms)))
+
 (defmacro apply->
   "applicative ->"
   (`(,h . ,t)
