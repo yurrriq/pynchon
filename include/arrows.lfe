@@ -65,7 +65,6 @@
   (`(,form . ,branches)
    `(furcula* -<>> false ,form ,branches)))
 
-
 (defmacro apply->>
   "applicative ->>"
   (`(,h . ,t)
