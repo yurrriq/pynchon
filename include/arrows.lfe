@@ -39,13 +39,7 @@
 (defmacro furcula*
   "sugar-free basis of public API"
   (`(,operator false ,form ,branches)
-   (cons
-    'tuple
-    (let ((branch-forms (lists:map
-                         (lambda (branch)
-                           `(,operator ,form ,branch))
-                         branches)))
-      branch-forms))))
+   (cons 'tuple (lists:map (lambda (branch) `(,operator ,form ,branch)) branches))))
 
 (defmacro -<
   "'the furcula': branch one result into multiple flows"
