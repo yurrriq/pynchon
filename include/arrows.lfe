@@ -1,17 +1,21 @@
 (include-lib "clj/include/compose.lfe")
 
 
+(eval-when-compile
+  (defun replace (smap lst)
+    "Given a map of replacement pairs and a list/form, return a list/form with
+    any elements = a key in `SMAP' replaced with the corresponding val in `SMAP'."
+    (lists:map (lambda (x) (maps:get x smap x)) lst)))
+
 (defmacro -<>*
   (`(,(= `(,h . ,t) form) ,x ,default-position) (when (is_list form))
-   (flet ((replace (smap coll)
-            (lists:map (lambda (x) (maps:get x smap x)) coll)))
-     (funcall
-      (match-lambda
-        ((0 'first) `(,h ,x ,@t))
-        ((0 'last)  `(,h ,@t ,x))
-        ((1 _)      `(,h ,@(replace (maps:from_list `(#(<> ,x))) t))))
-      (lists:foldl (lambda (y n) (if (=:= '<> y) (+ n 1) n)) 0 form)
-      default-position)))
+   (funcall
+    (match-lambda
+      ((0 'first) `(,h ,x ,@t))
+      ((0 'last)  `(,h ,@t ,x))
+      ((1 _)      `(,h ,@(replace (maps:from_list `(#(<> ,x))) t))))
+    (lists:foldl (lambda (y n) (if (=:= '<> y) (+ n 1) n)) 0 form)
+    default-position))
   (`(,form ,_ ,_) form))
 
 (defmacro -<>
